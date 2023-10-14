@@ -14,7 +14,25 @@ var getConnectedClient = async () => {
     return client;
 }
 
+var dbEquivalent = {
+    "firstName": "first_name",
+    "lastName": "last_name",
+    "emailId": "email_id",
+    "phoneNumber": "phone_number",
+    "id": "id"
+}
+
+var codeEquivalent = {
+    "first_name": "firstName",
+    "last_name": "lastName",
+    "email_id": "emailId",
+    "phone_number": "phoneNUmber",
+    "id": "id"
+}
+
 module.exports = {
     getClient,
-    getConnectedClient
+    getConnectedClient,
+    dbEquivalent,
+    codeEquivalent
 }

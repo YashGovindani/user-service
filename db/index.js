@@ -1,4 +1,7 @@
 module.exports = {
     add: require("./add"),
-    exists: require("./exists")
+    exists: require("./exists"),
+    get: require("./get"),
+    update: require("./update"),
+    delete: require("./delete")
 }

@@ -9,6 +9,13 @@ let requestCheck = async (data) => {
         msgs.push("invalid input");
         return {failed, msgs};
     }
+    for(key of Object.keys(data)) {
+        if(["firstName", "lastName", "emailId", "phoneNumber"].findIndex(val => val == key) == -1) {
+            failed = true;
+            msgs.push("invalid input");
+            return {failed, msgs};
+        }
+    }
     if(!utils.isFirstNameValid(data.firstName)) {
         failed = true;
         msgs.push(`invalid first name : ${data.firstName}`);
@@ -62,14 +69,14 @@ let handleArray = async (req, res, _next) => {
         }
         res.status(200);
         if(existing.length > 0) {
-            res.json({
+            return res.json({
                 status: "failed",
                 messages: existing,
                 countOfAdded: req.body.length - existing.length 
             })
         }
         else {
-            res.json({
+            return res.json({
                 status: "success",
                 countOfAdded: req.body.length
             });
@@ -77,7 +84,7 @@ let handleArray = async (req, res, _next) => {
     } catch (err) {
         console.log(err);
         res.status(500);
-        res.json({
+        return res.json({
             status: "failed",
             message: "Something went wrong"
         });
@@ -87,11 +94,10 @@ let handleArray = async (req, res, _next) => {
 module.exports = async (req, res, _next) => {
     if(!req.body || !Array.isArray(req.body)) {
         res.status(400);
-        res.json({
+        return res.json({
             status: "failed",
             message: "invalid input"
         });
-    } else {
-        await handleArray(req, res, _next);
     }
+    return await handleArray(req, res, _next);
 };
