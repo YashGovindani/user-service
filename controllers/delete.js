@@ -1,5 +1,4 @@
-let db = require('../db');
-let utils = require('./utils');
+var db = require('../db');
 
 let requestCheck = async (data) => {
     var failed = false;
@@ -15,44 +14,11 @@ let requestCheck = async (data) => {
             msgs.push("invalid input");
             return {failed, msgs};
         }
-        if(key == "id") {
-            for(firstName of data[key]) {
-                if(typeof firstName != "string") {
-                    failed = true;
-                    msgs.push(`id should be string`);
-                }
-            }
-        }
-        if(key == "firstName") {
-            for(firstName of data[key]) {
-                if(typeof firstName != "string") {
-                    failed = true;
-                    msgs.push(`firstName should be string`);
-                }
-            }
-        }
-        if(key == "lastName") {
-            for(lastName of data[key]) {
-                if(typeof lastName != "string") {
-                    failed = true;
-                    msgs.push(`lastName should be string`);
-                }
-            }
-        }
-        if(key == "emailId") {
-            for(emailId of data[key]) {
-                if(typeof emailId != "string") {
-                    failed =true;
-                    msgs.push(`emailId should be string`);
-                }
-            }
-        }
-        if(key == "phoneNumber") {
-            for(phoneNumber of data[key]) {
-                if(typeof phoneNumber != "string") {
-                    failed =true;
-                    msgs.push(`phoneNumber should be string`);
-                }
+        for(val of data[key]) {
+            if(typeof val != "string") {
+                failed = true,
+                msgs.push(`${key} should be string`);
+                break;
             }
         }
     }
@@ -76,11 +42,10 @@ module.exports = async (req, res, _next) => {
                 messages: checkResult.msgs
             });
         }
-        let result = await db.delete(req.body);
+        await db.delete(req.body);
         res.status(200);
         return res.json({
-            status: "success",
-            data: result
+            status: "success"
         });
     } catch (err) {
         console.log(err);

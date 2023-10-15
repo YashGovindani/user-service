@@ -1,17 +1,16 @@
-let utils = require('./utils');
-let db = require('../db');
+var db = require('../db');
 
 let requestCheck = async (data) => {
     var failed = false;
     var msgs = [];
-    let whats = data.what;
+    var whats = data.what;
     if(!Array.isArray(whats)) {
         failed = true;
         msgs.push("invalid input");
         return {failed, msgs};
     }
     for (key of whats) {
-        if(["id", "firstName", "lastName", "emailId", "phoneNumber"].findIndex(val => val == key) == -1 || (typeof key != "string")) {
+        if(["id", "firstName", "lastName", "emailId", "phoneNumber"].findIndex(val => val == key) == -1) {
             failed = true;
             msgs.push("invalid input");
             return {failed, msgs};
@@ -28,44 +27,11 @@ let requestCheck = async (data) => {
             msgs.push("invalid input");
             return {failed, msgs};
         }
-        if(key == "id") {
-            for(firstName of data[key]) {
-                if(typeof firstName != "string") {
-                    failed = true;
-                    msgs.push(`id should be string`);
-                }
-            }
-        }
-        if(key == "firstName") {
-            for(firstName of data[key]) {
-                if(typeof firstName != "string") {
-                    failed = true;
-                    msgs.push(`firstName should be string`);
-                }
-            }
-        }
-        if(key == "lastName") {
-            for(lastName of data[key]) {
-                if(typeof lastName != "string") {
-                    failed = true;
-                    msgs.push(`lastName should be string`);
-                }
-            }
-        }
-        if(key == "emailId") {
-            for(emailId of data[key]) {
-                if(typeof emailId != "string") {
-                    failed =true;
-                    msgs.push(`emailId should be string`);
-                }
-            }
-        }
-        if(key == "phoneNumber") {
-            for(phoneNumber of data[key]) {
-                if(typeof phoneNumber != "string") {
-                    failed =true;
-                    msgs.push(`phoneNumber should be string`);
-                }
+        for(val of data[key]) {
+            if(typeof val != "string") {
+                failed = true,
+                msgs.push(`${key} should be string`);
+                break;
             }
         }
     }

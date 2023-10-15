@@ -10,9 +10,6 @@ module.exports = async (data) => {
     }
     conditionString = conditionString.substring(0, conditionString.length - 2);
     var queryString = `delete from user_info${(conditionString.length > 0) ?' where' : ''}${conditionString};`;
-    let result = await client.query(queryString,[]);
+    await client.query(queryString,[]);
     await client.end();
-    return {
-        rowCount: result.rowCount
-    };
 }

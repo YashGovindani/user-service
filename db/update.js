@@ -15,9 +15,6 @@ module.exports = async (data) => {
     }
     updateString = updateString.substring(0, updateString.length - 1);
     var queryString = `update user_info set${updateString}${(conditionString.length > 0) ?' where' : ''}${conditionString};`;
-    let result = await client.query(queryString,[]);
+    await client.query(queryString,[]);
     await client.end();
-    return {
-        rowCount: result.rowCount
-    };
 }

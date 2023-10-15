@@ -11,5 +11,5 @@ grant all privileges on database "pratilipi_user_db" to pratilipi;
 ```
 ### to add schema
 ```
-psql -U pratilipi -d pragati_user_db -f ./schema.sql
+psql -U pratilipi -d pratilipi_user_db -f ./schema.sql
 ```

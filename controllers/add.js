@@ -1,5 +1,5 @@
-let db = require('../db');
-let utils = require('./utils');
+var db = require('../db');
+var utils = require('./utils');
 
 let requestCheck = async (data) => {
     var failed = false;
@@ -45,7 +45,7 @@ let requestCheck = async (data) => {
     return {failed, msgs};
 };
 
-let handleArray = async (req, res, _next) => {
+var handleArray = async (req, res, _next) => {
     try {
         var existing = [];
         if(req.body.length == 0)
