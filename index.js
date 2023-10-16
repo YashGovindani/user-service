@@ -19,6 +19,8 @@ var init = async () => {
 
     app.use('/user', routes);
 
+    app.use(express.static('static'));
+
     if(!await db.init()) return;
 
     app.listen(port, () => {
