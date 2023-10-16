@@ -1,6 +1,7 @@
 var express = require('express');
 var config = require('./config');
 var routes = require('./routes');
+var db = require('./db');
 
 var init = async () => {
     var app = express();
@@ -17,6 +18,8 @@ var init = async () => {
     });
 
     app.use('/user', routes);
+
+    if(!await db.init()) return;
 
     app.listen(port, () => {
         console.log("App is listening on port : " + port)

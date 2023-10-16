@@ -1,4 +1,4 @@
-CREATE TABLE user_info (
+CREATE TABLE IF NOT EXISTS user_info (
     id uuid DEFAULT gen_random_uuid (),
     first_name VARCHAR NOT NULL,
     last_name VARCHAR NOT NULL,
