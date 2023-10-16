@@ -7,62 +7,32 @@
             "email": "yashgovindani222@gmail.com"
         }
     },
-    "externalDocs": {
-        "description": "Find out more about Swagger",
-        "url": "http://swagger.io"
-    },
-    "servers": [
-        {
-            "url": "/api/v3"
-        }
-    ],
     "tags": [
         {
-            "name": "pet",
-            "description": "Everything about your Pets",
-            "externalDocs": {
-                "description": "Find out more",
-                "url": "http://swagger.io"
-            }
-        },
-        {
-            "name": "store",
-            "description": "Access to Petstore orders",
-            "externalDocs": {
-                "description": "Find out more about our store",
-                "url": "http://swagger.io"
-            }
-        },
-        {
             "name": "user",
-            "description": "Operations about user"
+            "description": "User Micro Service"
+        },
+        {
+            "name": "content",
+            "description": "Content Micro Service"
+        },
+        {
+            "name": "user-interaction",
+            "description": "User Interaction Micro Service"
         }
     ],
     "paths": {
-        "/pet": {
-            "put": {
+        "/user/add": {
+            "post": {
                 "tags": [
-                    "pet"
+                    "user"
                 ],
-                "summary": "Update an existing pet",
-                "description": "Update an existing pet by Id",
-                "operationId": "updatePet",
+                "summary": "Add a new user",
                 "requestBody": {
-                    "description": "Update an existent pet in the store",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Pet"
-                            }
-                        },
-                        "application/xml": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Pet"
-                            }
-                        },
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Pet"
+                                "$ref": "#/components/schemas/userAddRequest"
                             }
                         }
                     },
@@ -70,62 +40,29 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Success",
                         "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Pet"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Pet"
+                                    "$ref": "#/components/schemas/userAddResponse"
                                 }
                             }
                         }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Pet not found"
-                    },
-                    "405": {
-                        "description": "Validation exception"
                     }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
-            },
+                }
+            }
+        },
+        "/user/get": {
             "post": {
                 "tags": [
-                    "pet"
+                    "user"
                 ],
-                "summary": "Add a new pet to the store",
-                "description": "Add a new pet to the store",
-                "operationId": "addPet",
+                "summary": "Get users",
                 "requestBody": {
-                    "description": "Create a new pet in the store",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Pet"
-                            }
-                        },
-                        "application/xml": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Pet"
-                            }
-                        },
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Pet"
+                                "$ref": "#/components/schemas/userGetRequest"
                             }
                         }
                     },
@@ -133,551 +70,71 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Success",
                         "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Pet"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Pet"
+                                    "$ref": "#/components/schemas/userGetResponse"
                                 }
                             }
                         }
-                    },
-                    "405": {
-                        "description": "Invalid input"
                     }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
+                }
             }
         },
-        "/pet/findByStatus": {
-            "get": {
-                "tags": [
-                    "pet"
-                ],
-                "summary": "Finds Pets by status",
-                "description": "Multiple status values can be provided with comma separated strings",
-                "operationId": "findPetsByStatus",
-                "parameters": [
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Status values that need to be considered for filter",
-                        "required": false,
-                        "explode": true,
-                        "schema": {
-                            "type": "string",
-                            "default": "available",
-                            "enum": [
-                                "available",
-                                "pending",
-                                "sold"
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Pet"
-                                    }
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Pet"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid status value"
-                    }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
-            }
-        },
-        "/pet/findByTags": {
-            "get": {
-                "tags": [
-                    "pet"
-                ],
-                "summary": "Finds Pets by tags",
-                "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-                "operationId": "findPetsByTags",
-                "parameters": [
-                    {
-                        "name": "tags",
-                        "in": "query",
-                        "description": "Tags to filter by",
-                        "required": false,
-                        "explode": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Pet"
-                                    }
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Pet"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid tag value"
-                    }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
-            }
-        },
-        "/pet/{petId}": {
-            "get": {
-                "tags": [
-                    "pet"
-                ],
-                "summary": "Find pet by ID",
-                "description": "Returns a single pet",
-                "operationId": "getPetById",
-                "parameters": [
-                    {
-                        "name": "petId",
-                        "in": "path",
-                        "description": "ID of pet to return",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Pet"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Pet"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Pet not found"
-                    }
-                },
-                "security": [
-                    {
-                        "api_key": []
-                    },
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
-            },
+        "/user/update": {
             "post": {
                 "tags": [
-                    "pet"
+                    "user"
                 ],
-                "summary": "Updates a pet in the store with form data",
-                "description": "",
-                "operationId": "updatePetWithForm",
-                "parameters": [
-                    {
-                        "name": "petId",
-                        "in": "path",
-                        "description": "ID of pet that needs to be updated",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Name of pet that needs to be updated",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Status of pet that needs to be updated",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "405": {
-                        "description": "Invalid input"
-                    }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "pet"
-                ],
-                "summary": "Deletes a pet",
-                "description": "",
-                "operationId": "deletePet",
-                "parameters": [
-                    {
-                        "name": "api_key",
-                        "in": "header",
-                        "description": "",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "petId",
-                        "in": "path",
-                        "description": "Pet id to delete",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "Invalid pet value"
-                    }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
-            }
-        },
-        "/pet/{petId}/uploadImage": {
-            "post": {
-                "tags": [
-                    "pet"
-                ],
-                "summary": "uploads an image",
-                "description": "",
-                "operationId": "uploadFile",
-                "parameters": [
-                    {
-                        "name": "petId",
-                        "in": "path",
-                        "description": "ID of pet to update",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "additionalMetadata",
-                        "in": "query",
-                        "description": "Additional Metadata",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/octet-stream": {
-                            "schema": {
-                                "type": "string",
-                                "format": "binary"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
-            }
-        },
-        "/store/inventory": {
-            "get": {
-                "tags": [
-                    "store"
-                ],
-                "summary": "Returns pet inventories by status",
-                "description": "Returns a map of status codes to quantities",
-                "operationId": "getInventory",
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "additionalProperties": {
-                                        "type": "integer",
-                                        "format": "int32"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "api_key": []
-                    }
-                ]
-            }
-        },
-        "/store/order": {
-            "post": {
-                "tags": [
-                    "store"
-                ],
-                "summary": "Place an order for a pet",
-                "description": "Place a new order in the store",
-                "operationId": "placeOrder",
+                "summary": "Update users",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/Order"
-                            }
-                        },
-                        "application/xml": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Order"
-                            }
-                        },
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Order"
+                                "$ref": "#/components/schemas/userUpdateRequest"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Order"
+                                    "$ref": "#/components/schemas/userUpdateResponse"
                                 }
                             }
                         }
-                    },
-                    "405": {
-                        "description": "Invalid input"
                     }
                 }
             }
         },
-        "/store/order/{orderId}": {
-            "get": {
-                "tags": [
-                    "store"
-                ],
-                "summary": "Find purchase order by ID",
-                "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.",
-                "operationId": "getOrderById",
-                "parameters": [
-                    {
-                        "name": "orderId",
-                        "in": "path",
-                        "description": "ID of order that needs to be fetched",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Order not found"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "store"
-                ],
-                "summary": "Delete purchase order by ID",
-                "description": "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
-                "operationId": "deleteOrder",
-                "parameters": [
-                    {
-                        "name": "orderId",
-                        "in": "path",
-                        "description": "ID of the order that needs to be deleted",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "400": {
-                        "description": "Invalid ID supplied"
-                    },
-                    "404": {
-                        "description": "Order not found"
-                    }
-                }
-            }
-        },
-        "/user": {
+        "/user/delete": {
             "post": {
                 "tags": [
                     "user"
                 ],
-                "summary": "Create user",
-                "description": "This can only be done by the logged in user.",
-                "operationId": "createUser",
+                "summary": "Delete users",
                 "requestBody": {
-                    "description": "Created user object",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        },
-                        "application/xml": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        },
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
+                                "$ref": "#/components/schemas/userDeleteRequest"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
-                    "default": {
-                        "description": "successful operation",
+                    "200": {
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            },
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
+                                    "$ref": "#/components/schemas/userDeleteResponse"
                                 }
                             }
                         }
@@ -685,241 +142,302 @@
                 }
             }
         },
-        "/user/createWithList": {
+        "/content/add": {
             "post": {
                 "tags": [
-                    "user"
+                    "content"
                 ],
-                "summary": "Creates list of users with given input array",
-                "description": "Creates list of users with given input array",
-                "operationId": "createUsersWithListInput",
+                "summary": "Add content",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/components/schemas/User"
-                                }
+                                "$ref": "#/components/schemas/contentAddRequest"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Success",
                         "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            },
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User"
+                                    "$ref": "#/components/schemas/contentAddResponse"
                                 }
                             }
                         }
-                    },
-                    "default": {
-                        "description": "successful operation"
                     }
                 }
             }
         },
-        "/user/login": {
-            "get": {
+        "/content/delete": {
+            "post": {
                 "tags": [
-                    "user"
+                    "content"
                 ],
-                "summary": "Logs user into the system",
-                "description": "",
-                "operationId": "loginUser",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "query",
-                        "description": "The user name for login",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "The password for login in clear text",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "headers": {
-                            "X-Rate-Limit": {
-                                "description": "calls per hour allowed by the user",
-                                "schema": {
-                                    "type": "integer",
-                                    "format": "int32"
-                                }
-                            },
-                            "X-Expires-After": {
-                                "description": "date in UTC when token expires",
-                                "schema": {
-                                    "type": "string",
-                                    "format": "date-time"
-                                }
-                            }
-                        },
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid username/password supplied"
-                    }
-                }
-            }
-        },
-        "/user/logout": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Logs out current logged in user session",
-                "description": "",
-                "operationId": "logoutUser",
-                "parameters": [],
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            }
-        },
-        "/user/{username}": {
-            "get": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Get user by user name",
-                "description": "",
-                "operationId": "getUserByName",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "path",
-                        "description": "The name that needs to be fetched. Use user1 for testing. ",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/xml": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            },
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid username supplied"
-                    },
-                    "404": {
-                        "description": "User not found"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Update user",
-                "description": "This can only be done by the logged in user.",
-                "operationId": "updateUser",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "path",
-                        "description": "name that need to be deleted",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "Delete content",
                 "requestBody": {
-                    "description": "Update an existent user in the store",
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        },
-                        "application/xml": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        },
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
+                                "$ref": "#/components/schemas/contentDeleteRequest"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "user"
-                ],
-                "summary": "Delete user",
-                "description": "This can only be done by the logged in user.",
-                "operationId": "deleteUser",
-                "parameters": [
-                    {
-                        "name": "username",
-                        "in": "path",
-                        "description": "The name that needs to be deleted",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/contentDeleteResponse"
+                                }
+                            }
                         }
                     }
+                }
+            }
+        },
+        "/content/get": {
+            "post": {
+                "tags": [
+                    "content"
                 ],
-                "responses": {
-                    "400": {
-                        "description": "Invalid username supplied"
+                "summary": "Get content",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/contentGetRequest"
+                            }
+                        }
                     },
-                    "404": {
-                        "description": "User not found"
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/contentGetResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/content/getNewContent": {
+            "post": {
+                "tags": [
+                    "content"
+                ],
+                "summary": "Get new content",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/contentNewRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/contentNewResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/content/update": {
+            "post": {
+                "tags": [
+                    "content"
+                ],
+                "summary": "update content",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/contentUpdateRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/contentUpdateResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/content/getTopContent": {
+            "post": {
+                "tags": [
+                    "content"
+                ],
+                "summary": "Top content",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/contentTopRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/contentTopResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user-interaction/like": {
+            "post": {
+                "tags": [
+                    "user-interaction"
+                ],
+                "summary": "like action",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userInteractionLikeRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userInteractionLikeResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user-interaction/read": {
+            "post": {
+                "tags": [
+                    "user-interaction"
+                ],
+                "summary": "read action",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userInteractionReadRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userInteractionReadResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user-interaction/topContent": {
+            "post": {
+                "tags": [
+                    "user-interaction"
+                ],
+                "summary": "Top content API for content",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userInteractionTopContentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userInteractionTopContentResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user-interaction/unlike": {
+            "post": {
+                "tags": [
+                    "user-interaction"
+                ],
+                "summary": "unlike action",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userInteractionUnlikeRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userInteractionUnlikeResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -927,224 +445,739 @@
     },
     "components": {
         "schemas": {
-            "Order": {
+            "addableUser": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 10
-                    },
-                    "petId": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 198772
-                    },
-                    "quantity": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 7
-                    },
-                    "shipDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "status": {
-                        "type": "string",
-                        "description": "Order Status",
-                        "example": "approved",
-                        "enum": [
-                            "placed",
-                            "approved",
-                            "delivered"
-                        ]
-                    },
-                    "complete": {
-                        "type": "boolean"
-                    }
-                },
-                "xml": {
-                    "name": "order"
-                }
-            },
-            "Customer": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 100000
-                    },
-                    "username": {
-                        "type": "string",
-                        "example": "fehguy"
-                    },
-                    "address": {
-                        "type": "array",
-                        "xml": {
-                            "name": "addresses",
-                            "wrapped": true
-                        },
-                        "items": {
-                            "$ref": "#/components/schemas/Address"
-                        }
-                    }
-                },
-                "xml": {
-                    "name": "customer"
-                }
-            },
-            "Address": {
-                "type": "object",
-                "properties": {
-                    "street": {
-                        "type": "string",
-                        "example": "437 Lytton"
-                    },
-                    "city": {
-                        "type": "string",
-                        "example": "Palo Alto"
-                    },
-                    "state": {
-                        "type": "string",
-                        "example": "CA"
-                    },
-                    "zip": {
-                        "type": "string",
-                        "example": "94301"
-                    }
-                },
-                "xml": {
-                    "name": "address"
-                }
-            },
-            "Category": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 1
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "Dogs"
-                    }
-                },
-                "xml": {
-                    "name": "category"
-                }
-            },
-            "User": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 10
-                    },
-                    "username": {
-                        "type": "string",
-                        "example": "theUser"
-                    },
                     "firstName": {
-                        "type": "string",
-                        "example": "John"
+                        "type":"string",
+                        "example":"Yash"
                     },
                     "lastName": {
-                        "type": "string",
-                        "example": "James"
+                        "type":"string",
+                        "example":"Govindani"
                     },
-                    "email": {
-                        "type": "string",
-                        "example": "john@email.com"
+                    "emailId":{
+                        "type":"string",
+                        "example":"yas@mail.co"
                     },
-                    "password": {
-                        "type": "string",
-                        "example": "12345"
-                    },
-                    "phone": {
-                        "type": "string",
-                        "example": "12345"
-                    },
-                    "userStatus": {
-                        "type": "integer",
-                        "description": "User Status",
-                        "format": "int32",
-                        "example": 1
+                    "phoneNumber":{
+                        "type":"string",
+                        "example":"+918878855255"
                     }
-                },
-                "xml": {
-                    "name": "user"
                 }
             },
-            "Tag": {
+            "addableContent": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
+                    "title": {
+                        "type":"string",
+                        "example":"Yadjksfsh"
                     },
-                    "name": {
-                        "type": "string"
+                    "story": {
+                        "type":"string",
+                        "example":"Govihdsjafdjkslafhkjsdafhjdsakndani"
+                    },
+                    "authorId":{
+                        "type":"string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
                     }
-                },
-                "xml": {
-                    "name": "tag"
                 }
             },
-            "Pet": {
-                "required": [
-                    "name",
-                    "photoUrls"
-                ],
+            "addUserError": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 10
+                    "data": {
+                        "$ref": "#/components/schemas/addableUser"
                     },
-                    "name": {
-                        "type": "string",
-                        "example": "doggie"
-                    },
-                    "category": {
-                        "$ref": "#/components/schemas/Category"
-                    },
-                    "photoUrls": {
+                    "messages": {
                         "type": "array",
-                        "xml": {
-                            "wrapped": true
-                        },
                         "items": {
-                            "type": "string",
-                            "xml": {
-                                "name": "photoUrl"
+                            "type":"string"
+                        },
+                        "example": [
+                            "some error message"
+                        ]
+                    }
+                }
+            },
+            "userAddRequest": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/addableUser"
+                }
+            },
+            "userGetRequest": {
+                "type": "object",
+                "properties": {
+                    "what": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "firstName",
+                            "lastName"
+                        ]
+                    },
+                    "by": {
+                        "type": "object",
+                        "properties": {
+                            "firstName": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "lastName": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "email": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "phoneNumber": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "id": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "userUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "update": {
+                        "type": "object",
+                        "properties": {
+                            "firstName": {
+                                "type": "string",
+                                "example": "yash"
+                            },
+                            "lastName": {
+                                "type": "string",
+                                "example": "yash"
+                            },
+                            "emailId": {
+                                "type": "string",
+                                "example": "yash"
+                            },
+                            "phoneNumber": {
+                                "type": "string",
+                                "example": "yash"
                             }
                         }
                     },
-                    "tags": {
+                    "by": {
+                        "type": "object",
+                        "properties": {
+                            "firstName": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "lastName": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "email": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "phoneNumber": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "id": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "userDeleteRequest": {
+                "type": "object",
+                "properties": {
+                    "by": {
+                        "type": "object",
+                        "properties": {
+                            "firstName": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "lastName": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "email": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "phoneNumber": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            },
+                            "id": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "contentAddRequest": {
+                "type": "object",
+                "properties": {
+                    "data": {
                         "type": "array",
-                        "xml": {
-                            "wrapped": true
-                        },
                         "items": {
-                            "$ref": "#/components/schemas/Tag"
+                            "$ref": "#/components/schemas/addableContent"
                         }
                     },
+                    "userId": {
+                        "type": "string",
+                        "example": "dsaf-dsafd-saf-dfasdf"
+                    }
+                }
+            },
+            "contentDeleteRequest": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "dshaj-fkgjdsgf-hdsfa-dsafgh"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "example": "dshaj-fkgjdsgf-hdsfa-dsafgh"
+                    }
+                }
+            },
+            "contentGetRequest": {
+                "type": "object",
+                "properties": {
+                    "what": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "story",
+                            "titile",
+                            "id"
+                        ]
+                    },
+                    "by": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "ydsafhkash"
+                                ]
+                            },
+                            "id": {
+                                "type":"array",
+                                "items":{
+                                    "type": "string"
+                                },
+                                "example": [
+                                    "yash"
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "contentNewRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    }
+                }
+            },
+            "contentUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "update": {
+                        "type": "object",
+                        "properties": {
+                            "story": {
+                                "type": "string",
+                                "example": "dsjahkfgsjaf"
+                            },
+                            "title": {
+                                "type": "string",
+                                "example": "dshajfgsa"
+                            }
+                        }
+                    },
+                    "id": {
+                        "type": "string",
+                        "example": "dshaj-fkgjdsgf-hdsfa-dsafgh"
+                    }
+                }
+            },
+            "contentTopRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    }
+                }
+            },
+            "userInteractionLikeRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    },
+                    "contentId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    }
+                }
+            },
+            "userInteractionReadRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    },
+                    "contentId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    }
+                }
+            },
+            "userInteractionTopRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    }
+                }
+            },
+            "userInteractionUnlikeRequest": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    },
+                    "contentId": {
+                        "type": "string",
+                        "example":"dsfsa-sdafsa-dsfa-sfadfda"
+                    }
+                }
+            },
+            "userAddResponse": {
+                "type":"object",
+                "properties": {
+                    "status": {
+                        "type":"string",
+                        "example":"success"
+                    },
+                    "countOfAdded": {
+                        "type":"integer",
+                        "example":1
+                    },
+                    "messages": {
+                        "type":"array",
+                        "items": {
+                            "#ref": "#/components/schemas/addUserError"
+                        },
+                        "example": [
+                            {
+                                "data": {
+                                    "firstName": "Yash",
+                                    "lastName": "Govindani",
+                                    "emailId": "yas@mail.co",
+                                    "phoneNumber": "+918878855255"
+                                },
+                                "messages": [
+                                    "some error message"
+                                ]
+                            }
+                        ]
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "invalid"
+                    }
+                }
+            },
+            "userGetResponse": {
+                "type": "object",
+                "properties": {
                     "status": {
                         "type": "string",
-                        "description": "pet status in the store",
-                        "enum": [
-                            "available",
-                            "pending",
-                            "sold"
+                        "example": "failed"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "invlaid"
+                    },
+                    "data": {
+                        "type": "array",
+                        "example": [
+                            {
+                                "id": "dshaj-fkgjdsgf-hdsfa-dsafgh",
+                                "emailId": "yas@mail.co"
+                            }
+                        ]
+                    },
+                    "messages": {
+                        "type":"array",
+                        "items": {
+                            "#ref": "#/components/schemas/addUserError"
+                        },
+                        "example": [
+                            {
+                                "data": {
+                                    "firstName": "Yash",
+                                    "lastName": "Govindani",
+                                    "emailId": "yas@mail.co",
+                                    "phoneNumber": "+918878855255"
+                                },
+                                "messages": [
+                                    "some error message"
+                                ]
+                            }
                         ]
                     }
-                },
-                "xml": {
-                    "name": "pet"
+                }
+            },
+            "userUpdateResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "failed"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "invlaid"
+                    },
+                    "messages": {
+                        "type":"array",
+                        "items": {
+                            "#ref": "#/components/schemas/addUserError"
+                        },
+                        "example": [
+                            {
+                                "data": {
+                                    "firstName": "Yash",
+                                    "lastName": "Govindani",
+                                    "emailId": "yas@mail.co",
+                                    "phoneNumber": "+918878855255"
+                                },
+                                "messages": [
+                                    "some error message"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "userDeleteResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "failed"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "invlaid"
+                    },
+                    "messages": {
+                        "type":"array",
+                        "items": {
+                            "#ref": "#/components/schemas/addUserError"
+                        },
+                        "example": [
+                            {
+                                "data": {
+                                    "firstName": "Yash",
+                                    "lastName": "Govindani",
+                                    "emailId": "yas@mail.co",
+                                    "phoneNumber": "+918878855255"
+                                },
+                                "messages": [
+                                    "some error message"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "contentAddResponse": {
+                "type":"object",
+                "properties": {
+                    "status": {
+                        "type":"string",
+                        "example":"success"
+                    },
+                    "countOfAdded": {
+                        "type":"integer",
+                        "example":1
+                    },
+                    "messages": {
+                        "type":"array",
+                        "items": {
+                            "#ref": "#/components/schemas/addUserError"
+                        },
+                        "example": [
+                            {
+                                "data": {
+                                    "story": "dsafjkgsdhafgkj",
+                                    "title": "dhsajfkhg",
+                                    "authorId": "dhsajfkg"
+                                },
+                                "messages": [
+                                    "some error message"
+                                ]
+                            }
+                        ]
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "invalid"
+                    }
+                }
+            },
+            "contentDeleteResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "failed"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "invalid id"
+                    }
+                }
+            },
+            "contentGetResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "failed"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "invlaid"
+                    },
+                    "data": {
+                        "type": "array",
+                        "example": [
+                            {
+                                "id": "dshaj-fkgjdsgf-hdsfa-dsafgh",
+                                "authorId": "yas@mail.co"
+                            }
+                        ]
+                    },
+                    "messages": {
+                        "type":"array",
+                        "items": {
+                            "#ref": "#/components/schemas/addUserError"
+                        },
+                        "example": [
+                            {
+                                "messages": [
+                                    "some error message"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            "contentNewResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "failed"
+                    },
+                    "data": {
+                        "type": "array",
+                        "example": [
+                            {
+                                "id":"dshaj-fkgjdsgf-hdsfa-dsafgh",
+                                "authorId":"dshaj-fkgjdsgf-hdsfa-dsafgh",
+                                "title": "dsjafg",
+                                "story": "dsajkfghskdaf",
+                                "created_at": "timestamp"
+                            }
+                        ]
+                    }
+                }
+            },
+            "contentUpdateResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    }
+                }
+            },
+            "contentTopResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "failed"
+                    },
+                    "data": {
+                        "type": "array",
+                        "example": [
+                            {
+                                "id":"dshaj-fkgjdsgf-hdsfa-dsafgh",
+                                "authorId":"dshaj-fkgjdsgf-hdsfa-dsafgh",
+                                "title": "dsjafg",
+                                "story": "dsajkfghskdaf",
+                                "created_at": "timestamp",
+                                "reads": 10,
+                                "likes": 4
+                            }
+                        ]
+                    }
+                }
+            },
+            "userInteractionLikeResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    }
+                }
+            },
+            "userInteractionReadResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    }
+                }
+            },
+            "userInteractionTopResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "data": {
+                        "type": "array",
+                        "example": [
+                            {
+                                "id":"dshaj-fkgjdsgf-hdsfa-dsafgh",
+                                "reads": 10,
+                                "likes": 3
+                            }
+                        ]
+                    }
+                }
+            },
+            "userInteractionUnlikeResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    }
                 }
             },
             "ApiResponse": {
