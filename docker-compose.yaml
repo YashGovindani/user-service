@@ -8,4 +8,4 @@ services:
       POSTGRES_USER: pratilipi
       POSTGRES_PASSWORD: pratilipi
     ports:
-      - "9022:9022"
+      - "9022:5432"
